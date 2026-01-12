@@ -709,18 +709,26 @@ def recommend_by_text_mood():
     
     desired_mood = classify_user_mood(user_sentiment, user_text.lower())
     
-    # Apply strict genre-based filtering for certain moods
+    # Apply explicit genre-based filtering for all moods
     if desired_mood == 'Horror':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'horror' for g in gs))]
     elif desired_mood == 'Intense/Mystery':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['mystery', 'crime', 'thriller'] for g in gs))]
     elif desired_mood == 'Romcom':
-        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and set([g.lower() for g in gs if isinstance(g, str)]).issuperset({'comedy', 'romance'}))]
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and 
+                                                   'comedy' in [g.lower() for g in gs if isinstance(g, str)] and 
+                                                   'romance' in [g.lower() for g in gs if isinstance(g, str)])]
+    elif desired_mood == 'Happy':
+        # Happy includes comedy, family, animation (uplifting genres)
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['comedy', 'family', 'animation'] for g in gs))]
+    elif desired_mood == 'Action/Adventure':
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['action', 'adventure'] for g in gs))]
     elif desired_mood == 'Drama':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'drama' for g in gs))]
     elif desired_mood == 'Relaxing':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['comedy', 'family', 'animation'] for g in gs))]
     else:
+        # Fallback to mood_category
         mood_movies = df[df['mood_category'] == desired_mood]
 
     mood_movies = mood_movies[mood_movies['tmdb_vote_count'].notna() & (mood_movies['tmdb_vote_count'] >= 10)]
@@ -745,16 +753,27 @@ def get_movies_by_mood_category_route():
     data = request.get_json()
     category = data.get('category')
     if not category: return jsonify({"error": "Category is required"}), 400
-    # Normalize category naming and apply strict filtering for specific moods
+    
+    # Normalize category naming
     requested = str(category).strip()
     category_norm = 'Intense/Mystery' if requested in ['Intense', 'Intense/Mystery', 'Intense Mystery', 'Mystery/Intense'] else requested
 
+    # Apply explicit genre-based filtering for all mood categories
     if category_norm == 'Horror':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'horror' for g in gs))]
     elif category_norm == 'Intense/Mystery':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['mystery', 'crime', 'thriller'] for g in gs))]
     elif category_norm == 'Romcom':
-        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and set([g.lower() for g in gs if isinstance(g, str)]).issuperset({'comedy', 'romance'}))]
+        # For romcom, require BOTH comedy AND romance
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and 
+                                                   'comedy' in [g.lower() for g in gs if isinstance(g, str)] and 
+                                                   'romance' in [g.lower() for g in gs if isinstance(g, str)])]
+    elif category_norm == 'Happy':
+        # Happy includes comedy, family, animation (uplifting genres)
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['comedy', 'family', 'animation'] for g in gs))]
+    elif category_norm == 'Action/Adventure':
+        # Action/Adventure includes action or adventure genres
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['action', 'adventure'] for g in gs))]
     elif category_norm == 'Drama':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'drama' for g in gs))]
     elif category_norm in ['Western', 'Fantasy', 'Superhero', 'Science Fiction', 'Sci-Fi', 'Scifiction']:
@@ -775,7 +794,10 @@ def get_movies_by_mood_category_route():
         canonical = 'science fiction' if key in ['science fiction', 'sci-fi', 'scifiction'] else key
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: genre_match(gs, [canonical]))]
     else:
+        # Fallback to mood_category for any other categories
         mood_movies = df[df['mood_category'] == category_norm]
+    
+    # Filter by vote count (at least 10 votes for quality)
     mood_movies = mood_movies[mood_movies['tmdb_vote_count'].notna() & (mood_movies['tmdb_vote_count'] >= 10)]
     formatted_movies = []
     mood_movies_list_of_dicts = mood_movies.sort_values(by=['tmdb_vote_average', 'tmdb_vote_count'], ascending=[False, False]).head(10).to_dict('records')
