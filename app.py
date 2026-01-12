@@ -1076,4 +1076,5 @@ if __name__ == '__main__':
         print(f"Error: Raw CSV files not found in '{data_dir}/'. Please ensure 'tmdb_5000_movies.csv' and 'tmdb_5000_credits.csv' are present.")
         exit()
     df, similarity = load_and_preprocess_data()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
