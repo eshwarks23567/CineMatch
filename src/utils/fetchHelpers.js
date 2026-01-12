@@ -73,7 +73,7 @@ export async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
 }
 
 // Get API base URL from environment or use production default
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://cinematch-api-9l0w.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://cinematch-1-mlfq.onrender.com';
 
 /**
  * Combined retry with timeout
