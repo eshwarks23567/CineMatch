@@ -2,7 +2,7 @@
 
 **Your Ultimate AI-Powered Movie Recommender**
 
-CineMatch is an intelligent movie recommendation system that understands your mood and preferences to suggest the perfect films. Built with React and Flask, it combines sentiment analysis, cosine similarity algorithms, and The Movie Database (TMDB) API to deliver personalized movie recommendations.
+CineMatch is an intelligent movie recommendation system that understands your mood and preferences to suggest the perfect films. Built with React and Flask, it combines sentiment analysis, cosine similarity, and the TMDB API to deliver personalized movie suggestions.
 
 ![CineMatch](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -47,7 +47,7 @@ CineMatch is an intelligent movie recommendation system that understands your mo
 
 #### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/CineMatch.git
+git clone https://github.com/eshwarks23567/CineMatch.git
 cd CineMatch
 ```
 
@@ -336,15 +336,12 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) file for 
 
 ## 📧 Contact
 
-**Project Link:** [https://github.com/yourusername/CineMatch](https://github.com/yourusername/CineMatch)
+**Project Link:** [https://github.com/eshwarks23567/CineMatch](https://github.com/eshwarks23567/CineMatch)
 
-**Issues:** [https://github.com/yourusername/CineMatch/issues](https://github.com/yourusername/CineMatch/issues)
+**Issues:** [https://github.com/eshwarks23567/CineMatch/issues](https://github.com/eshwarks23567/CineMatch/issues)
 
 ---
 
 <div align="center">
   Made with ❤️ for movie lovers
 </div>
-#   C i n e M a t c h 
- 
- 
