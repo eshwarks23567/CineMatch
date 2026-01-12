@@ -1245,77 +1245,92 @@ footer a:hover {
     
     /* Section titles */
     .section-title {
-        font-size: 1.8em;
-        margin-top: 30px;
-        margin-bottom: 25px;
+        font-size: 2em;
+        margin-top: 35px;
+        margin-bottom: 30px;
+        padding-bottom: 12px;
     }
     
     /* Mood selector mobile */
     .mood-selector-section {
-        padding: 40px 20px;
-        margin: 30px 15px;
+        padding: 35px 18px;
+        margin: 30px 12px;
     }
     
     .mood-selector-section h2 {
-        font-size: 1.8em;
-        margin-bottom: 30px;
+        font-size: 1.9em;
+        margin-bottom: 25px;
     }
     
     .mood-input-group {
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
     }
     
     .mood-input-group input[type="text"] {
         width: 100%;
-        padding: 14px 20px;
-        font-size: 1em;
+        padding: 15px 22px;
+        font-size: 1.05em;
     }
     
     .mood-input-group button {
         width: 100%;
-        padding: 14px 24px;
+        padding: 15px 28px;
+        font-size: 1.05x 24px;
         font-size: 1em;
     }
     
-    /* Movie grid mobile - 2 columns */
+    /* Movie grid mobile - larger, more readable cards */
     .movies-grid, .rec-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        padding: 0 10px;
+        gap: 20px;
+        padding: 0 15px;
     }
     
     .movie-card {
         width: 100%;
+        min-height: 280px;
     }
     
     .movie-card img {
-        height: auto;
-        aspect-ratio: 2/3;
+        height: 220px;
+        width: 100%;
+        object-fit: cover;
     }
     
     .movie-card h3 {
-        font-size: 0.95em;
-        margin-bottom: 4px;
+        font-size: 1em;
+        margin-bottom: 6px;
+        line-height: 1.3;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
     }
     
     .movie-card-info {
-        padding: 10px;
+        padding: 12px;
     }
     
     .movie-card .meta-info {
-        font-size: 0.85em;
-        margin-bottom: 6px;
+        font-size: 0.9em;
+        margin-bottom: 8px;
     }
     
     .movie-card .genre-tags {
-        gap: 4px;
-        margin-top: 6px;
+        gap: 5px;
+        margin-top: 8px;
+        flex-wrap: wrap;
     }
     
     .movie-card .genre-tag {
-        font-size: 0.75em;
-        padding: 4px 10px;
+        font-size: 0.8em;
+        padding: 5px 12px;
+        white-space: nowrap;
+    }
+    
+    .rating-overlay {
+        font-size: 0.95rem;
+        padding: 5px 10px;
     }
     
     /* Movie detail page mobile */
@@ -1359,11 +1374,11 @@ footer a:hover {
 @media (max-width: 480px) {
     /* Extra small mobile screens */
     header {
-        padding: 12px;
+        padding: 14px;
     }
     
     .logo {
-        font-size: 1.4em;
+        font-size: 1.5em;
     }
     
     .logo .logo-cine, .logo .logo-match {
@@ -1371,17 +1386,17 @@ footer a:hover {
     }
     
     .menu-icon, .home-icon {
-        font-size: 1.3em;
-        width: 32px;
-        height: 32px;
+        font-size: 1.4em;
+        width: 36px;
+        height: 36px;
     }
     
     /* Search mobile extra small */
     .search-container input {
-        padding: 12px 16px;
-        padding-right: 40px;
-        font-size: 0.95em;
-        border-radius: 24px;
+        padding: 14px 18px;
+        padding-right: 45px;
+        font-size: 1em;
+        border-radius: 26px;
     }
     
     /* Sidebar mobile */
@@ -1426,57 +1441,60 @@ footer a:hover {
     }
     
     .section-title {
-        font-size: 1.4em;
-        margin-top: 20px;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
+        font-size: 1.6em;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
     }
     
-    /* Movie grid extra small - maintain 2 columns but tighter */
+    /* Movie grid extra small - keep readable size */
     .movies-grid, .rec-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 0 8px;
+        gap: 16px;
+        padding: 0 12px;
     }
     
     .movie-card {
-        border-radius: 8px;
+        border-radius: 10px;
+        min-height: 260px;
     }
     
     .movie-card img {
-        border-radius: 8px 8px 0 0;
+        border-radius: 10px 10px 0 0;
+        height: 200px;
     }
     
     .movie-card h3 {
-        font-size: 0.85em;
-        line-height: 1.2;
+        font-size: 0.9em;
+        line-height: 1.25;
+        white-space: normal;
     }
     
     .movie-card-info {
-        padding: 8px;
+        padding: 10px;
     }
     
     .movie-card .meta-info {
-        font-size: 0.75em;
-        margin-bottom: 4px;
+        font-size: 0.8em;
+        margin-bottom: 6px;
     }
     
     .movie-card .genre-tags {
-        gap: 3px;
-        margin-top: 4px;
+        gap: 4px;
+        margin-top: 6px;
     }
     
     .movie-card .genre-tag {
-        font-size: 0.7em;
-        padding: 3px 8px;
-        margin: 2px 3px 0 0;
+        font-size: 0.75em;
+        padding: 4px 10px;
+        margin: 2px 4px 0 0;
     }
     
     .rating-overlay {
-        padding: 3px 6px;
-        font-size: 0.8rem;
-        top: 6px;
-        left: 6px;
+        padding: 4px 8px;
+        font-size: 0.85rem;
+        top: 8px;
+        left: 8px;
     }
     
     /* Movie detail page extra small */
@@ -1586,40 +1604,50 @@ footer a:hover {
 /* Very small screens (iPhone SE, etc) */
 @media (max-width: 375px) {
     .logo {
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
     
     .search-container input {
-        font-size: 0.9em;
-        padding: 10px 14px;
-        padding-right: 38px;
+        font-size: 0.95em;
+        padding: 12px 16px;
+        padding-right: 42px;
     }
     
     .section-title {
-        font-size: 1.2em;
+        font-size: 1.4em;
     }
     
     .mood-selector-section h2 {
-        font-size: 1.2em;
+        font-size: 1.4em;
     }
     
     .movies-grid, .rec-grid {
-        gap: 10px;
+        gap: 14px;
+        padding: 0 10px;
+    }
+    
+    .movie-card {
+        min-height: 240px;
+    }
+    
+    .movie-card img {
+        height: 180px;
     }
     
     .movie-card h3 {
-        font-size: 0.8em;
+        font-size: 0.85em;
     }
     
     .movie-card .meta-info {
-        font-size: 0.7em;
+        font-size: 0.75em;
     }
     
     .movie-card .genre-tag {
-        font-size: 0.65em;
-        padding: 2px 6px;
+        font-size: 0.7em;
+        padding: 3px 8px;
     }
 }
+
 .splash-collage-mosaic-bg {
     position: absolute;
     pointer-events: none;
@@ -1965,56 +1993,60 @@ footer a:hover {
     }
     .splash-right-collage { margin-left: 0; }
     .splash-center-prompt { 
-        padding: 28px 20px 30px 20px; 
+        padding: 32px 24px 34px 24px; 
         min-width: 0;
         width: 90vw;
         max-width: 500px;
         border-radius: 20px;
     }
     .splash-logo { 
-        font-size: 2em;
+        font-size: 2.2em;
         letter-spacing: 1px;
     }
     .splash-tagline {
-        font-size: 0.9em;
-        margin-top: 6px;
+        font-size: 1em;
+        margin-top: 8px;
     }
     .splash-input {
-        font-size: 1.05em;
-        height: 58px;
-        padding: 0 20px 0 50px;
+        font-size: 1.1em;
+        height: 60px;
+        padding: 0 22px 0 54px;
     }
     .input-icon {
-        font-size: 1.5em;
-        left: 16px;
+        font-size: 1.6em;
+        left: 18px;
     }
     .splash .mood-input-go {
-        font-size: 1em;
-        padding: 13px 26px;
+        font-size: 1.05em;
+        padding: 14px 30px;
     }
     .splash .mood-input-go.primary {
-        min-width: 180px;
+        min-width: 200px;
     }
     .splash .mood-input-go.secondary {
-        min-width: 140px;
+        min-width: 160px;
+    }
+    .splash-buttons {
+        gap: 12px;
+        margin-bottom: 20px;
     }
     .how-it-works {
         flex-direction: column;
         gap: 14px;
-        padding: 14px;
-        margin: 16px 0 14px 0;
+        padding: 16px;
+        margin: 18px 0 16px 0;
     }
     .step {
         flex-direction: row;
-        gap: 10px;
+        gap: 12px;
         width: 100%;
     }
     .step-icon {
-        font-size: 1.6em;
+        font-size: 1.7em;
     }
     .step-text {
         text-align: left;
-        font-size: 0.8em;
+        font-size: 0.85em;
     }
     .splash-flex-row {
         padding-top: 100px;
@@ -2075,50 +2107,52 @@ footer a:hover {
         padding: 10px 20px 20px 20px;
     }
     .splash-flex-row {
-        padding-top: 80px;
+        padding-top: 85px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
     .splash-center-prompt {
-        padding: 18px 14px;
+        padding: 24px 18px;
         width: 94vw;
-        border-radius: 16px;
+        border-radius: 18px;
     }
     .splash-logo {
-        font-size: 1.5em;
-        margin-bottom: 10px;
+        font-size: 1.7em;
+        margin-bottom: 12px;
     }
     .splash-tagline {
-        font-size: 0.8em;
+        font-size: 0.9em;
     }
     .splash-input {
-        font-size: 0.95em;
-        height: 52px;
-        padding: 0 16px 0 46px;
-        border-radius: 26px;
+        font-size: 1em;
+        height: 54px;
+        padding: 0 18px 0 48px;
+        border-radius: 27px;
     }
     .input-icon {
-        font-size: 1.3em;
-        left: 14px;
+        font-size: 1.4em;
+        left: 16px;
     }
     .splash .mood-input-go {
-        font-size: 0.95em;
-        padding: 12px 22px;
-        border-radius: 26px;
+        font-size: 1em;
+        padding: 13px 24px;
+        border-radius: 27px;
     }
     .splash-buttons {
-        gap: 8px;
-        margin-bottom: 16px;
+        gap: 10px;
+        margin-bottom: 18px;
     }
     .how-it-works {
         display: none;
     }
     .social-proof {
-        margin-top: 10px;
+        margin-top: 12px;
     }
     .proof-text {
-        font-size: 0.75em;
+        font-size: 0.8em;
     }
     .button-icon {
-        font-size: 1.1em;
+        font-size: 1.15em;
     }
     /* Hide all collage posters on very small screens */
     .collage-corner-poster {
