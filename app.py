@@ -45,8 +45,8 @@ app = Flask(__name__, static_folder='dist', static_url_path='/')
 
 # --- CORS Configuration ---
 CORS(app, resources={
-    r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:3000"]},
-    r"/*": {"origins": ["http://localhost:5173", "http://localhost:3000"]}
+    r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:3000", "https://*.vercel.app"]},
+    r"/*": {"origins": ["http://localhost:5173", "http://localhost:3000", "https://*.vercel.app"]}
 })
 
 # --- Rate Limiting ---

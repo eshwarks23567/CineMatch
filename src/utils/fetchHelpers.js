@@ -72,6 +72,9 @@ export async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
   }
 }
 
+// Get API base URL from environment or use production default
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://cinematch-api-910w.onrender.com';
+
 /**
  * Combined retry with timeout
  * @param {string} url - URL to fetch
@@ -81,8 +84,11 @@ export async function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
  * @returns {Promise<Response>}
  */
 export async function robustFetch(url, options = {}, maxRetries = 3, timeoutMs = 10000) {
+  // Prepend API base URL to relative paths
+  const fullUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`;
+  
   return retryFetch(
-    () => fetchWithTimeout(url, options, timeoutMs),
+    () => fetchWithTimeout(fullUrl, options, timeoutMs),
     maxRetries
   );
 }
