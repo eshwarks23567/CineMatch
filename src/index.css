@@ -22,6 +22,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -56,10 +57,21 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Smooth scrolling on all devices */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Touch-friendly improvements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 a:hover {
   color: #535bf2;
@@ -68,6 +80,36 @@ a:hover {
 body {
   margin: 0;
   min-height: 100vh;
+  overscroll-behavior-y: none; /* Prevent bounce scrolling on iOS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Better button touch targets on mobile */
+button, .button, [role="button"] {
+  min-height: 44px; /* iOS recommended touch target size */
+  min-width: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* Disable double-tap zoom */
+}
+
+/* Prevent text selection on buttons and interactive elements */
+button, .button, [role="button"], .movie-card, .genre-tag, .mood-category-btn {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Smooth momentum scrolling on iOS */
+.movies-grid, .rec-grid, .suggestions-dropdown, .sidebar {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent horizontal scroll on mobile */
+body, html {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 @theme inline {
@@ -109,6 +151,31 @@ body {
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+}
+
+/* Mobile-specific media query optimizations */
+@media (max-width: 768px) {
+  /* Larger touch targets on mobile */
+  button, .button, [role="button"] {
+    min-height: 48px;
+    padding: 12px 16px;
+  }
+  
+  /* Better spacing for mobile readability */
+  body {
+    font-size: 16px; /* Prevent iOS zoom on input focus */
+  }
+  
+  input, textarea, select {
+    font-size: 16px; /* Prevent iOS zoom on focus */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even larger touch targets on small phones */
+  button, .button, [role="button"] {
+    min-height: 50px;
+  }
 }
 
 .dark {

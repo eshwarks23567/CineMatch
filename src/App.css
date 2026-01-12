@@ -1174,7 +1174,7 @@ footer a:hover {
     display: none;
 }
 
-/* Responsive Design */
+/* Responsive Design - Enhanced for Mobile */
 @media (max-width: 1024px) {
     .container {
         padding: 15px;
@@ -1182,75 +1182,442 @@ footer a:hover {
     .section-title {
         font-size: 2.2em;
     }
+    
+    /* Sidebar adjustments for tablets */
+    .sidebar {
+        width: 220px;
+    }
+    
+    main.sidebar-open {
+        margin-left: 220px;
+    }
 }
 
 @media (max-width: 768px) {
+    /* Header mobile optimizations */
     header {
         flex-direction: column;
         gap: 15px;
-        padding: 10px 15px;
+        padding: 15px;
     }
+    
+    .header-left {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
     .logo {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
+    
+    .menu-icon, .home-icon {
+        font-size: 1.5em;
+        width: 36px;
+        height: 36px;
+    }
+    
+    /* Search container mobile */
     .search-container {
         width: 100%;
+        max-width: none;
     }
+    
+    .search-container input {
+        padding: 14px 20px;
+        padding-right: 45px;
+        font-size: 1em;
+    }
+    
+    .search-container .search-icon {
+        right: 15px;
+        font-size: 1.2em;
+    }
+    
+    /* Sidebar mobile - full width overlay */
+    .sidebar {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    main.sidebar-open {
+        margin-left: 0;
+    }
+    
+    /* Section titles */
     .section-title {
         font-size: 1.8em;
+        margin-top: 30px;
+        margin-bottom: 25px;
     }
+    
+    /* Mood selector mobile */
+    .mood-selector-section {
+        padding: 40px 20px;
+        margin: 30px 15px;
+    }
+    
     .mood-selector-section h2 {
-        font-size: 2em;
+        font-size: 1.8em;
+        margin-bottom: 30px;
     }
+    
     .mood-input-group {
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
     }
+    
     .mood-input-group input[type="text"] {
         width: 100%;
+        padding: 14px 20px;
+        font-size: 1em;
     }
+    
     .mood-input-group button {
         width: 100%;
-    }
-    .movies-grid {
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
-    .movie-card img {
-        height: 250px;
-    }
-    .movie-card h3 {
+        padding: 14px 24px;
         font-size: 1em;
+    }
+    
+    /* Movie grid mobile - 2 columns */
+    .movies-grid, .rec-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 0 10px;
+    }
+    
+    .movie-card {
+        width: 100%;
+    }
+    
+    .movie-card img {
+        height: auto;
+        aspect-ratio: 2/3;
+    }
+    
+    .movie-card h3 {
+        font-size: 0.95em;
+        margin-bottom: 4px;
+    }
+    
+    .movie-card-info {
+        padding: 10px;
+    }
+    
+    .movie-card .meta-info {
+        font-size: 0.85em;
+        margin-bottom: 6px;
+    }
+    
+    .movie-card .genre-tags {
+        gap: 4px;
+        margin-top: 6px;
+    }
+    
+    .movie-card .genre-tag {
+        font-size: 0.75em;
+        padding: 4px 10px;
+    }
+    
+    /* Movie detail page mobile */
+    .movie-detail-hero {
+        min-height: 35vh;
+        padding: 15px;
+    }
+    
+    .movie-detail-poster {
+        width: 140px;
+        height: 210px;
+    }
+    
+    .movie-detail-title {
+        font-size: 1.6em;
+    }
+    
+    .movie-meta-info {
+        font-size: 0.9em;
+        gap: 8px;
+    }
+    
+    .movie-grid-sidebar {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .crew-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    /* Footer mobile */
+    footer {
+        padding: 30px 15px;
+        margin-top: 40px;
+        font-size: 0.85em;
     }
 }
 
 @media (max-width: 480px) {
-    .mood-selector-section {
-        padding: 20px 10px;
+    /* Extra small mobile screens */
+    header {
+        padding: 12px;
     }
-    .mood-selector-section h2, .section-title {
+    
+    .logo {
+        font-size: 1.4em;
+    }
+    
+    .logo .logo-cine, .logo .logo-match {
+        display: inline;
+    }
+    
+    .menu-icon, .home-icon {
+        font-size: 1.3em;
+        width: 32px;
+        height: 32px;
+    }
+    
+    /* Search mobile extra small */
+    .search-container input {
+        padding: 12px 16px;
+        padding-right: 40px;
+        font-size: 0.95em;
+        border-radius: 24px;
+    }
+    
+    /* Sidebar mobile */
+    .sidebar {
+        width: 85%;
+        max-width: 280px;
+    }
+    
+    .sidebar-header {
         font-size: 1.5em;
+        padding: 12px;
+    }
+    
+    .mood-category-btn {
+        padding: 10px 16px;
+        margin: 5px 12px;
+        font-size: 1em;
+    }
+    
+    /* Mood section extra small */
+    .mood-selector-section {
+        padding: 30px 15px;
+        margin: 20px 10px;
+        border-radius: 12px;
+    }
+    
+    .mood-selector-section h2 {
+        font-size: 1.4em;
         margin-bottom: 20px;
     }
-    .movies-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
+    
+    .mood-input-group input[type="text"] {
+        padding: 12px 16px;
+        font-size: 0.95em;
+        border-radius: 24px;
     }
+    
+    .mood-input-group button {
+        padding: 12px 20px;
+        font-size: 0.95em;
+        border-radius: 24px;
+    }
+    
+    .section-title {
+        font-size: 1.4em;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+    }
+    
+    /* Movie grid extra small - maintain 2 columns but tighter */
+    .movies-grid, .rec-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 8px;
+    }
+    
+    .movie-card {
+        border-radius: 8px;
+    }
+    
     .movie-card img {
-        height: auto;
+        border-radius: 8px 8px 0 0;
     }
+    
+    .movie-card h3 {
+        font-size: 0.85em;
+        line-height: 1.2;
+    }
+    
     .movie-card-info {
-        padding: 10px;
+        padding: 8px;
     }
-    .movie-card .meta-info, .movie-card .genre-tag {
+    
+    .movie-card .meta-info {
+        font-size: 0.75em;
+        margin-bottom: 4px;
+    }
+    
+    .movie-card .genre-tags {
+        gap: 3px;
+        margin-top: 4px;
+    }
+    
+    .movie-card .genre-tag {
+        font-size: 0.7em;
+        padding: 3px 8px;
+        margin: 2px 3px 0 0;
+    }
+    
+    .rating-overlay {
+        padding: 3px 6px;
+        font-size: 0.8rem;
+        top: 6px;
+        left: 6px;
+    }
+    
+    /* Movie detail page extra small */
+    .movie-detail-hero {
+        min-height: 30vh;
+        padding: 12px;
+    }
+    
+    .movie-detail-poster {
+        width: 120px;
+        height: 180px;
+    }
+    
+    .movie-detail-title {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+    }
+    
+    .movie-meta-info {
+        font-size: 0.8em;
+        gap: 6px;
+    }
+    
+    .movie-section {
+        margin-bottom: 20px;
+    }
+    
+    .crew-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .crew-card {
+        padding: 8px;
+    }
+    
+    .crew-name {
+        font-size: 0.85rem;
+    }
+    
+    .crew-role {
+        font-size: 0.75rem;
+    }
+    
+    /* Movie flyout disabled on mobile */
+    .movie-flyout {
+        display: none !important;
+    }
+    
+    /* Floating actions mobile */
+    .floating-actions {
+        bottom: 8px;
+    }
+    
+    .add-to-collection-btn,
+    .remove-from-collection-btn {
+        padding: 8px 12px;
+        font-size: 0.8em;
+        max-width: 140px;
+    }
+    
+    /* Footer extra small */
+    footer {
+        padding: 20px 12px;
+        margin-top: 30px;
         font-size: 0.8em;
     }
-    .mood-input-group {
-        flex-direction: column;
+    
+    /* Suggestions dropdown mobile */
+    .search-container .suggestions-dropdown {
+        max-height: 180px;
+        font-size: 0.9em;
+    }
+    
+    .search-container .suggestion-item {
+        padding: 8px 12px;
+    }
+    
+    /* Review cards mobile */
+    .movie-review-card {
+        padding: 12px;
+        max-height: 150px;
+        margin-bottom: 12px;
+    }
+    
+    .review-content {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+}
+
+/* Landscape phone orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .movie-detail-hero {
+        min-height: 50vh;
+    }
+    
+    .splash-flex-row {
+        padding-top: 80px;
+    }
+    
+    .movies-grid, .rec-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Very small screens (iPhone SE, etc) */
+@media (max-width: 375px) {
+    .logo {
+        font-size: 1.2em;
+    }
+    
+    .search-container input {
+        font-size: 0.9em;
+        padding: 10px 14px;
+        padding-right: 38px;
+    }
+    
+    .section-title {
+        font-size: 1.2em;
+    }
+    
+    .mood-selector-section h2 {
+        font-size: 1.2em;
+    }
+    
+    .movies-grid, .rec-grid {
         gap: 10px;
     }
-    .mood-input-group button {
-        width: 100%;
+    
+    .movie-card h3 {
+        font-size: 0.8em;
+    }
+    
+    .movie-card .meta-info {
+        font-size: 0.7em;
+    }
+    
+    .movie-card .genre-tag {
+        font-size: 0.65em;
+        padding: 2px 6px;
     }
 }
 .splash-collage-mosaic-bg {
@@ -1571,7 +1938,8 @@ footer a:hover {
 @media (max-width: 900px) {
     .splash-left-logo { margin-right: 18px; margin-left: 6px;}
     .splash-top-logo {
-        top: 20px;
+        top: 15px;
+        padding: 15px 40px 35px 40px;
     }
     .splash-tagline {
         font-size: 0.95em;
@@ -1580,92 +1948,204 @@ footer a:hover {
     .splash-flex-row {
         padding-top: 120px;
     }
+    .splash-logo {
+        font-size: 2.2em;
+    }
+    .splash-input {
+        font-size: 1.15em;
+        height: 64px;
+    }
 }
-@media (max-width: 900px) {
+
+@media (max-width: 768px) {
+    .splash-top-logo {
+        top: 10px;
+        padding: 12px 30px 25px 30px;
+        border-radius: 0 0 20px 20px;
+    }
     .splash-right-collage { margin-left: 0; }
     .splash-center-prompt { 
         padding: 28px 20px 30px 20px; 
         min-width: 0;
-        width: 95vw;
+        width: 90vw;
+        max-width: 500px;
+        border-radius: 20px;
     }
-    .splash-logo { font-size: 2.3em;}
+    .splash-logo { 
+        font-size: 2em;
+        letter-spacing: 1px;
+    }
+    .splash-tagline {
+        font-size: 0.9em;
+        margin-top: 6px;
+    }
     .splash-input {
-        font-size: 1.1em;
-        height: 60px;
-        padding: 0 20px 0 55px;
+        font-size: 1.05em;
+        height: 58px;
+        padding: 0 20px 0 50px;
     }
     .input-icon {
         font-size: 1.5em;
-        left: 18px;
+        left: 16px;
     }
     .splash .mood-input-go {
-        font-size: 1.05em;
-        padding: 14px 28px;
+        font-size: 1em;
+        padding: 13px 26px;
+    }
+    .splash .mood-input-go.primary {
+        min-width: 180px;
+    }
+    .splash .mood-input-go.secondary {
+        min-width: 140px;
     }
     .how-it-works {
         flex-direction: column;
-        gap: 16px;
-        padding: 16px;
+        gap: 14px;
+        padding: 14px;
+        margin: 16px 0 14px 0;
     }
     .step {
         flex-direction: row;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
     }
     .step-icon {
-        font-size: 1.8em;
+        font-size: 1.6em;
     }
     .step-text {
         text-align: left;
+        font-size: 0.8em;
+    }
+    .splash-flex-row {
+        padding-top: 100px;
     }
 }
+
 @media (max-width: 700px) {
     .splash-flex-row { 
         flex-direction: column;
-        padding-top: 110px;
+        padding-top: 90px;
+        padding-bottom: 40px;
     }
-    .splash-left-logo { margin: 0 auto 2vw auto; }
+    .splash-left-logo { 
+        margin: 0 auto 15px auto; 
+    }
     .splash-center-prompt { 
-        margin: 2vw auto 0 auto;
-        padding: 24px 16px;
+        margin: 15px auto 0 auto;
+        padding: 20px 16px;
+        width: 92vw;
     }
     .splash-logo {
-        font-size: 2em;
+        font-size: 1.8em;
     }
     .splash-tagline {
         font-size: 0.85em;
+        line-height: 1.3;
     }
     .splash-buttons {
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
+        margin-bottom: 20px;
     }
     .splash .mood-input-go.primary {
+        min-width: auto;
+        width: 100%;
+    }
+    .splash .mood-input-go.secondary {
         min-width: auto;
         width: 100%;
     }
     .dome-gallery-container {
         opacity: 0.7;
     }
-    .collage-corner-poster { display: none!important; }
+    .collage-corner-poster { 
+        opacity: 0.15 !important;
+    }
+    /* Hide some collage posters on small screens */
+    .collage-corner-poster.c,
+    .collage-corner-poster.ml,
+    .collage-corner-poster.mr {
+        display: none !important;
+    }
 }
 
 @media (max-width: 480px) {
+    .splash-top-logo {
+        top: 8px;
+        padding: 10px 20px 20px 20px;
+    }
+    .splash-flex-row {
+        padding-top: 80px;
+    }
+    .splash-center-prompt {
+        padding: 18px 14px;
+        width: 94vw;
+        border-radius: 16px;
+    }
+    .splash-logo {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .splash-tagline {
+        font-size: 0.8em;
+    }
     .splash-input {
-        font-size: 1em;
-        height: 56px;
+        font-size: 0.95em;
+        height: 52px;
+        padding: 0 16px 0 46px;
+        border-radius: 26px;
+    }
+    .input-icon {
+        font-size: 1.3em;
+        left: 14px;
     }
     .splash .mood-input-go {
         font-size: 0.95em;
-        padding: 12px 24px;
+        padding: 12px 22px;
+        border-radius: 26px;
+    }
+    .splash-buttons {
+        gap: 8px;
+        margin-bottom: 16px;
     }
     .how-it-works {
         display: none;
     }
     .social-proof {
-        margin-top: 12px;
+        margin-top: 10px;
     }
     .proof-text {
-        font-size: 0.8em;
+        font-size: 0.75em;
+    }
+    .button-icon {
+        font-size: 1.1em;
+    }
+    /* Hide all collage posters on very small screens */
+    .collage-corner-poster {
+        display: none !important;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 375px) {
+    .splash-logo {
+        font-size: 1.3em;
+    }
+    .splash-tagline {
+        font-size: 0.75em;
+    }
+    .splash-input {
+        font-size: 0.9em;
+        height: 48px;
+        padding: 0 14px 0 42px;
+    }
+    .input-icon {
+        font-size: 1.2em;
+        left: 12px;
+    }
+    .splash .mood-input-go {
+        font-size: 0.9em;
+        padding: 10px 18px;
     }
 }
 
@@ -1938,3 +2418,45 @@ footer a:hover {
 }
 
 /* remove grid-only alignment */
+/* Toast notification styles */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 36, 47, 0.95);
+    color: #E0E0E0;
+    padding: 16px 32px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 10001;
+    font-size: 1em;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(245, 197, 24, 0.3);
+    min-width: 280px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+/* Mobile toast adjustments */
+@media (max-width: 768px) {
+    .toast {
+        bottom: 60px;
+        padding: 14px 24px;
+        font-size: 0.95em;
+        min-width: 240px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .toast {
+        bottom: 50px;
+        padding: 12px 20px;
+        font-size: 0.9em;
+        min-width: 200px;
+        max-width: 85vw;
+        border-radius: 8px;
+    }
+}
