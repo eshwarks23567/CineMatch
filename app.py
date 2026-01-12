@@ -41,7 +41,7 @@ http = PoolManager(
 )
 
 # --- Flask App Configuration ---
-app = Flask(__name__, static_folder='dist', static_url_path='/')
+app = Flask(__name__, static_folder='build', static_url_path='/')
 
 # --- CORS Configuration ---
 CORS(app, resources={
@@ -62,7 +62,7 @@ app.secret_key = b'\x83`\xa1\x13P9HIO\xee\x82\x12\x89u/@\xe1&\\\x9eB\x84\xb5q'
 app.config['SESSION_TYPE'] = 'filesystem'
 
 # --- Configuration ---
-TMDB_API_KEY = '271adabbe12ddcea31c012505d8ebb3a'
+TMDB_API_KEY = os.environ.get('TMDB_API_KEY', 'YOUR_TMDB_API_KEY')
 TMDB_API_KEY_PLACEHOLDER = 'YOUR_TMDB_API_KEY'
 
 TMDB_BASE_URL = 'https://api.themoviedb.org/3'
