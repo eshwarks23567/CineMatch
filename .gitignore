@@ -1,1 +1,3 @@
 node_modules
+data/similarity_cache.pkl
+data/processed_data_cache.pkl
