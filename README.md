@@ -345,5 +345,6 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) file for 
 <div align="center">
   Made with ❤️ for movie lovers
 </div>
-#   C i n e M a t c h  
+#   C i n e M a t c h 
+ 
  
