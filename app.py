@@ -1077,15 +1077,6 @@ def movie_details():
     except requests.exceptions.RequestException as e:
         return jsonify({'error': f'Failed to fetch details: {str(e)}'}), 500
 
-# Preload data at startup (important for gunicorn)
-os.makedirs(data_dir, exist_ok=True)
-if not os.path.exists(movies_csv_path) or not os.path.exists(credits_csv_path):
-    print(f"Error: Raw CSV files not found in '{data_dir}/'. Please ensure 'tmdb_5000_movies.csv' and 'tmdb_5000_credits.csv' are present.")
-else:
-    print("Loading data at startup...")
-    df, similarity = load_and_preprocess_data()
-    print("Data loaded successfully!")
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
