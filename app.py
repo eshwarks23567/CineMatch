@@ -81,6 +81,13 @@ ENRICHMENT_REQUIRED = False
 ENRICHMENT_BATCH_SIZE = 50
 ENRICHMENT_DELAY_SECONDS = 1.1
 
+# Download NLTK data before initializing analyzer
+try:
+    nltk.data.find('sentiment/vader_lexicon.zip')
+except LookupError:
+    print("Downloading vader_lexicon...")
+    nltk.download('vader_lexicon')
+
 df = None
 similarity = None
 analyzer = SentimentIntensityAnalyzer()
