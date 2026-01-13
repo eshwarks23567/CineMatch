@@ -382,18 +382,19 @@ def load_and_preprocess_data():
         elif 'id_credits' in df_base.columns:
             df_base['movie_id'] = df_base['id_credits']
         elif 'id' in df_base.columns:
-        
-        # Apply movie limit if specified (for Render processing only)
-        if MAX_MOVIES and len(df_base) > MAX_MOVIES:
-            print(f"Limiting to {MAX_MOVIES} movies for processing (PROCESS_ALL_MOVIES={PROCESS_ALL_MOVIES})")
-            df_base = df_base.head(MAX_MOVIES)
-        
             df_base['movie_id'] = df_base['id']
         else:
             print("No ID column found - using index")
             df_base['movie_id'] = df_base.index
         
         print(f"Total movies before enrichment: {len(df_base)}")
+        
+        # Apply movie limit if specified (for Render processing only)
+        if MAX_MOVIES and len(df_base) > MAX_MOVIES:
+            print(f"Limiting to {MAX_MOVIES} movies for processing (PROCESS_ALL_MOVIES={PROCESS_ALL_MOVIES})")
+            df_base = df_base.head(MAX_MOVIES)
+        
+        print(f"Total movies to enrich: {len(df_base)}")
         df_base = enrich_data_with_tmdb_api(df_base)
         print(f"Total movies after enrichment: {len(df_base)}")
         df_base.to_csv(enriched_data_path, index=False)
@@ -492,16 +493,16 @@ def load_and_preprocess_data():
     # Attach display names for API responses
     df['cast'] = movies_processed['cast_display']
     df['crew'] = movies_processed['directors_display']
-    dfUse more features when processing all movies, fewer for limited dataset
-    max_features = 5000 if PROCESS_ALL_MOVIES else 3000
-    print(f"Using {max_features} features for vectorization")
-    cv = CountVectorizer(max_features=max_features: x.lower())
+    df['tags'] = df['tags'].apply(lambda x: " ".join(x))
+    df['tags'] = df['tags'].apply(lambda x: x.lower())
     ps = PorterStemmer()
     print("Stemming text tokens...")
     df['tags'] = df['tags'].apply(lambda text: " ".join([ps.stem(i) for i in text.split()]))
     print("Building similarity matrix...")
-    # Reduce max_features to speed up processing (3000 instead of 5000)
-    cv = CountVectorizer(max_features=3000, stop_words='english')
+    # Use more features when processing all movies, fewer for limited dataset
+    max_features = 5000 if PROCESS_ALL_MOVIES else 3000
+    print(f"Using {max_features} features for vectorization")
+    cv = CountVectorizer(max_features=max_features, stop_words='english')
     vectors = cv.fit_transform(df['tags']).toarray()
     print("Calculating cosine similarity...")
     similarity = cosine_similarity(vectors)
