@@ -97,10 +97,14 @@ def safe_literal_eval(s):
     if not isinstance(s, str) or not s.strip():
         return []
     try:
-        if s.strip().startswith(('{', '[')) and s.strip().endswith(('}', ']')):
-            return ast.literal_eval(s)
+        s_stripped = s.strip()
+        # Skip if string is too large to prevent timeout
+        if len(s_stripped) > 10000:
+            return []
+        if s_stripped.startswith(('{', '[')) and s_stripped.endswith(('}', ']')):
+            return ast.literal_eval(s_stripped)
         return s
-    except (ValueError, SyntaxError, TypeError):
+    except (ValueError, SyntaxError, TypeError, MemoryError):
         return []
 
 def fetch_genres(data):
@@ -316,14 +320,16 @@ def load_and_preprocess_data():
     except:
         nltk.download('vader_lexicon')
 
-    # Load data
+    # Load data with optimized settings
     if os.path.exists(enriched_data_path) and not ENRICHMENT_REQUIRED:
-        print("Loading cached enriched data")
-        df_base = pd.read_csv(enriched_data_path)
+        print("Loading cached enriched data...")
+        # Use low_memory=False to prevent mixed type warnings
+        df_base = pd.read_csv(enriched_data_path, low_memory=False)
+        print(f"Loaded {len(df_base)} movies from cache")
     else:
         print("Loading and processing raw data")
-        movies_raw = pd.read_csv(movies_csv_path)
-        credits_raw = pd.read_csv(credits_csv_path)
+        movies_raw = pd.read_csv(movies_csv_path, low_memory=False)
+        credits_raw = pd.read_csv(credits_csv_path, low_memory=False)
         
         # Clean up column names before merge
         movies_raw.columns = [col.strip() for col in movies_raw.columns]
@@ -372,8 +378,11 @@ def load_and_preprocess_data():
         movies_processed[col] = movies_processed[col].fillna('[]')
 
     movies_processed.dropna(subset=['overview', 'genres', 'keywords', 'cast', 'crew'], inplace=True)
+    print(f"Processing {len(movies_processed)} movies after dropna...")
     
+    # Process columns with progress tracking
     for col in list_cols:
+        print(f"Parsing {col} column...")
         movies_processed[col] = movies_processed[col].apply(safe_literal_eval)
 
     # FIX: Apply the specific parsing functions to the appropriate columns
@@ -448,10 +457,15 @@ def load_and_preprocess_data():
     df['tags'] = df['tags'].apply(lambda x: " ".join(x))
     df['tags'] = df['tags'].apply(lambda x: x.lower())
     ps = PorterStemmer()
+    print("Stemming text tokens...")
     df['tags'] = df['tags'].apply(lambda text: " ".join([ps.stem(i) for i in text.split()]))
-    cv = CountVectorizer(max_features=5000, stop_words='english')
+    print("Building similarity matrix...")
+    # Reduce max_features to speed up processing (3000 instead of 5000)
+    cv = CountVectorizer(max_features=3000, stop_words='english')
     vectors = cv.fit_transform(df['tags']).toarray()
+    print("Calculating cosine similarity...")
     similarity = cosine_similarity(vectors)
+    print(f"Similarity matrix shape: {similarity.shape}")
     
     # Cache the processed data and similarity matrix
     print("Caching processed data and similarity matrix...")
@@ -1102,3 +1116,16 @@ def movie_details():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=False)
+# Preload data when running under Gunicorn (preload_app=True)
+if 'gunicorn' in os.environ.get('SERVER_SOFTWARE', '').lower() or os.environ.get('GUNICORN_CMD_ARGS'):
+    print("="*60)
+    print("PRELOADING DATA FOR GUNICORN...")
+    print("="*60)
+    try:
+        df, similarity = load_and_preprocess_data()
+        print(" Successfully preloaded {0} movies".format(len(df)))
+        print("="*60)
+    except Exception as e:
+        print(" Warning: Preload failed: {0}".format(e))
+        print("Data will load on first request")
+        print("="*60)
