@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  cinematch:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - FLASK_ENV=production
+      - PORT=5000
+    volumes:
+      - ./data:/app/data
+      - ./build:/app/build
+    command: gunicorn app:app -c gunicorn_config.py
+
+  # Service for one-time data processing
+  preprocess:
+    build: .
+    environment:
+      - TMDB_API_KEY=${TMDB_API_KEY}
+    volumes:
+      - ./data:/app/data
+    command: python preprocess_data.py
+    profiles:
+      - tools

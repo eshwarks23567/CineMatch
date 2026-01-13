@@ -1,0 +1,38 @@
+# Node modules
+node_modules/
+npm-debug.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts (we'll copy dist to build)
+dist/
+
+# Don't ignore data folder - we need it for cache files
+# data/
+
+# Logs
+*.log

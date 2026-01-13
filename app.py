@@ -81,6 +81,10 @@ similarity_cache_path = os.path.join(data_dir, 'similarity_cache.pkl')
 CACHE_VERSION = '2.0'  # Increment this to force cache rebuild
 cache_version_file = os.path.join(data_dir, 'cache_version.txt')
 
+# Processing mode - set to True to process all movies (use in Docker locally)
+PROCESS_ALL_MOVIES = os.environ.get('PROCESS_ALL_MOVIES', 'false').lower() == 'true'
+MAX_MOVIES = None if PROCESS_ALL_MOVIES else 2000  # Limit for Render processing
+
 ENRICHMENT_REQUIRED = False
 ENRICHMENT_BATCH_SIZE = 50
 ENRICHMENT_DELAY_SECONDS = 1.1
@@ -347,6 +351,12 @@ def load_and_preprocess_data():
         print("Loading cached enriched data...")
         # Use low_memory=False to prevent mixed type warnings
         df_base = pd.read_csv(enriched_data_path, low_memory=False)
+        
+        # Apply movie limit if specified (for Render processing only)
+        if MAX_MOVIES and len(df_base) > MAX_MOVIES:
+            print(f"Limiting to {MAX_MOVIES} movies (PROCESS_ALL_MOVIES={PROCESS_ALL_MOVIES})")
+            df_base = df_base.head(MAX_MOVIES)
+        
         print(f"Loaded {len(df_base)} movies from cache")
     else:
         print("Loading and processing raw data")
@@ -372,6 +382,12 @@ def load_and_preprocess_data():
         elif 'id_credits' in df_base.columns:
             df_base['movie_id'] = df_base['id_credits']
         elif 'id' in df_base.columns:
+        
+        # Apply movie limit if specified (for Render processing only)
+        if MAX_MOVIES and len(df_base) > MAX_MOVIES:
+            print(f"Limiting to {MAX_MOVIES} movies for processing (PROCESS_ALL_MOVIES={PROCESS_ALL_MOVIES})")
+            df_base = df_base.head(MAX_MOVIES)
+        
             df_base['movie_id'] = df_base['id']
         else:
             print("No ID column found - using index")
@@ -476,8 +492,10 @@ def load_and_preprocess_data():
     # Attach display names for API responses
     df['cast'] = movies_processed['cast_display']
     df['crew'] = movies_processed['directors_display']
-    df['tags'] = df['tags'].apply(lambda x: " ".join(x))
-    df['tags'] = df['tags'].apply(lambda x: x.lower())
+    dfUse more features when processing all movies, fewer for limited dataset
+    max_features = 5000 if PROCESS_ALL_MOVIES else 3000
+    print(f"Using {max_features} features for vectorization")
+    cv = CountVectorizer(max_features=max_features: x.lower())
     ps = PorterStemmer()
     print("Stemming text tokens...")
     df['tags'] = df['tags'].apply(lambda text: " ".join([ps.stem(i) for i in text.split()]))
