@@ -686,20 +686,41 @@ def recommend_by_text_mood():
         # Strong signals first
         if any(kw in text for kw in ['horror', 'scary', 'spooky', 'creepy', 'gore', 'gory', 'slasher', 'ghost', 'zombie', 'paranormal', 'possession']):
             return 'Horror'
+        
+        # Mysterious button - maps to Intense/Mystery
+        if text.strip() == 'mysterious' or 'mysterious' in text:
+            return 'Intense/Mystery'
+        
+        # Thrilling button - maps to Action/Adventure  
+        if text.strip() == 'thrilling' or (text.strip() == 'thriller' or 'thrilling' in text):
+            return 'Action/Adventure'
+            
         if any(kw in text for kw in [
-            'mystery', 'crime', 'detective', 'puzzle', 'thriller', 'thrilling', 'suspense', 'noir', 'whodunit',
+            'mystery', 'crime', 'detective', 'puzzle', 'thriller', 'suspense', 'noir', 'whodunit',
             'psychological', 'twist', 'investigation', 'serial killer', 'heist', 'conspiracy']):
             return 'Intense/Mystery'
 
+        # Romantic button - maps to broader romance
+        if text.strip() == 'romantic':
+            return 'Romantic/Dramatic'
+            
         # Other categories
         if any(kw in text for kw in ['romcom', 'rom-com', 'romantic comedy', 'meet-cute', 'date night', 'banter', 'cute rom', 'feel-good romance', 'light romance']):
             return 'Romcom'
-        if any(kw in text for kw in ['romantic', 'love', 'romance', 'relationship', 'heartfelt', 'romantic drama']):
+        if any(kw in text for kw in ['romance', 'love', 'relationship', 'heartfelt', 'romantic drama']):
             return 'Romantic/Dramatic'
         if any(kw in text for kw in ['action', 'adventure', 'fight', 'battle', 'chase', 'spy', 'espionage', 'war', 'martial arts', 'car chase', 'explosive']):
             return 'Action/Adventure'
         if any(kw in text for kw in ['happy', 'joyful', 'fun', 'uplifting', 'comedy', 'lighthearted', 'feel-good', 'wholesome', 'family-friendly', 'light']):
             return 'Happy'
+        
+        # Inspiring button - maps to Thought-Provoking
+        if text.strip() == 'inspiring':
+            return 'Thought-Provoking'
+            
+        # Inspiring content - maps to uplifting/motivational movies (sports, biographies, dramas with positive message)
+        if any(kw in text for kw in ['inspirational', 'motivational', 'motivating', 'empowering', 'triumph', 'overcome', 'achievement', 'success story', 'hero', 'heroic', 'courage', 'brave', 'hopeful', 'hope']):
+            return 'Thought-Provoking'
         if any(kw in text for kw in ['documentary', 'learn', 'explore', 'history', 'biography', 'biopic', 'informative', 'educational', 'philosophical', 'mind-bending', 'political', 'social issues', 'true story']):
             return 'Thought-Provoking'
         if any(kw in text for kw in ['chill', 'relax', 'calm', 'peaceful', 'cozy', 'comfort', 'soothing', 'slow', 'slice of life']):
@@ -739,8 +760,22 @@ def recommend_by_text_mood():
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['action', 'adventure'] for g in gs))]
     elif desired_mood == 'Drama':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'drama' for g in gs))]
+    elif desired_mood == 'Thought-Provoking':
+        # Documentary, history, biography movies - inspirational/educational content
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['documentary', 'history'] for g in gs))]
+        # If too few, also include highly-rated dramas (8.0+)
+        if len(mood_movies) < 10:
+            drama_movies = df[(df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'drama' for g in gs))) & 
+                             (df['tmdb_vote_average'] >= 8.0)]
+            mood_movies = pd.concat([mood_movies, drama_movies]).drop_duplicates()
+    elif desired_mood == 'Romantic/Dramatic':
+        # Romance or drama movies  
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['romance', 'drama'] for g in gs))]
     elif desired_mood == 'Relaxing':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['comedy', 'family', 'animation'] for g in gs))]
+    elif desired_mood == 'Escapist':
+        # Fantasy, sci-fi, adventure for escapism
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['fantasy', 'science fiction', 'adventure'] for g in gs))]
     else:
         # Fallback to mood_category
         mood_movies = df[df['mood_category'] == desired_mood]
