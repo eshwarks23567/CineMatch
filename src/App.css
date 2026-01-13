@@ -178,22 +178,47 @@
 @media (max-width: 768px) {
     .movies-grid,
     .rec-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        padding: 0 0.5rem;
     }
     
     .movie-card {
-        width: 300px;
+        width: 100%;
+        max-width: 180px;
         flex-direction: column;
     }
     
     .movie-card img {
         width: 100%;
-        height: 200px;
+        height: auto;
+        aspect-ratio: 2/3;
         object-fit: cover;
     }
     
     .movie-card-info {
-        padding: 12px;
+        padding: 8px;
+    }
+    
+    .movie-card-info h3 {
+        font-size: 0.9rem;
+        line-height: 1.2;
+        margin-bottom: 4px;
+    }
+    
+    .movie-card-info p {
+        font-size: 0.75rem;
+        margin: 2px 0;
+    }
+    
+    .genre-tags {
+        gap: 4px;
+        margin-top: 4px;
+    }
+    
+    .genre-tag {
+        font-size: 0.7rem !important;
+        padding: 3px 8px !important;
     }
 }
 
@@ -695,19 +720,55 @@ header {
 @media (max-width: 768px) {
   .movie-grid-sidebar {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .movie-detail-hero {
     min-height: 40vh;
+    padding: 60px 16px 40px;
   }
   
   .movie-detail-poster {
-    width: 180px;
-    height: 270px;
+    width: 140px;
+    height: 210px;
   }
   
   .movie-detail-title {
-    font-size: 2em;
+    font-size: 1.5em;
+    line-height: 1.2;
+  }
+  
+  .movie-detail-info {
+    font-size: 0.9em;
+  }
+  
+  .movie-detail-overview {
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+  
+  .similar-movie-card {
+    flex-direction: row;
+    gap: 12px;
+    padding: 10px;
+  }
+  
+  .similar-movie-card img {
+    width: 80px;
+    height: 120px;
+    min-width: 80px;
+  }
+  
+  .crew-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
   }
 }
 
@@ -2112,42 +2173,69 @@ footer a:hover {
         padding-right: 10px;
     }
     .splash-center-prompt {
-        padding: 24px 18px;
-        width: 94vw;
-        border-radius: 18px;
+        padding: 20px 14px;
+        width: 95vw;
+        border-radius: 16px;
     }
     .splash-logo {
-        font-size: 1.7em;
-        margin-bottom: 12px;
+        font-size: 1.5em;
+        margin-bottom: 10px;
     }
     .splash-tagline {
-        font-size: 0.9em;
+        font-size: 0.85em;
+        line-height: 1.3;
     }
     .splash-input {
-        font-size: 1em;
-        height: 54px;
-        padding: 0 18px 0 48px;
-        border-radius: 27px;
+        font-size: 0.95em;
+        height: 48px;
+        padding: 0 16px 0 44px;
+        border-radius: 24px;
     }
     .input-icon {
-        font-size: 1.4em;
-        left: 16px;
+        font-size: 1.3em;
+        left: 14px;
     }
     .splash .mood-input-go {
-        font-size: 1em;
-        padding: 13px 24px;
-        border-radius: 27px;
+        font-size: 0.95em;
+        padding: 12px 20px;
+        border-radius: 24px;
+        min-width: auto;
+        width: 100%;
     }
     .splash-buttons {
-        gap: 10px;
-        margin-bottom: 18px;
+        gap: 8px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
     }
     .how-it-works {
         display: none;
     }
     .social-proof {
-        margin-top: 12px;
+        margin-top: 10px;
     }
+    .button-icon {
+        font-size: 1.1em;
+    }
+    
+    /* Better mobile grid */
+    .movies-grid,
+    .rec-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        padding: 0 0.5rem;
+    }
+    
+    .movie-card {
+        width: 100%;
+        max-width: none;
+    }
+    
+    /* Improve touch targets */
+    button, .button, [role="button"] {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+}
     .proof-text {
         font-size: 0.8em;
     }
@@ -2170,8 +2258,8 @@ footer a:hover {
     }
     .splash-input {
         font-size: 0.9em;
-        height: 48px;
-        padding: 0 14px 0 42px;
+        height: 46px;
+        padding: 0 12px 0 40px;
     }
     .input-icon {
         font-size: 1.2em;
@@ -2179,7 +2267,22 @@ footer a:hover {
     }
     .splash .mood-input-go {
         font-size: 0.9em;
-        padding: 10px 18px;
+        padding: 10px 16px;
+    }
+    
+    /* Extra small screen grid - still 2 columns but more compact */
+    .movies-grid,
+    .rec-grid {
+        gap: 0.5rem;
+        padding: 0 0.25rem;
+    }
+    
+    .movie-card-info h3 {
+        font-size: 0.8rem;
+    }
+    
+    .movie-card-info p {
+        font-size: 0.7rem;
     }
 }
 
