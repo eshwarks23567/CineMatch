@@ -85,7 +85,8 @@ cache_version_file = os.path.join(data_dir, 'cache_version.txt')
 PROCESS_ALL_MOVIES = os.environ.get('PROCESS_ALL_MOVIES', 'false').lower() == 'true'
 MAX_MOVIES = None if PROCESS_ALL_MOVIES else 2000  # Limit for Render processing
 
-ENRICHMENT_REQUIRED = False
+# Enable enrichment when processing all movies with Docker
+ENRICHMENT_REQUIRED = PROCESS_ALL_MOVIES
 ENRICHMENT_BATCH_SIZE = 50
 ENRICHMENT_DELAY_SECONDS = 1.1
 
@@ -387,14 +388,14 @@ def load_and_preprocess_data():
             print("No ID column found - using index")
             df_base['movie_id'] = df_base.index
         
-        print(f"Total movies before enrichment: {len(df_base)}")
+        print(f"Total movies loaded from raw CSV: {len(df_base)}")
         
-        # Apply movie limit if specified (for Render processing only)
-        if MAX_MOVIES and len(df_base) > MAX_MOVIES:
-            print(f"Limiting to {MAX_MOVIES} movies for processing (PROCESS_ALL_MOVIES={PROCESS_ALL_MOVIES})")
+        # Apply movie limit ONLY when not processing all movies (for Render)
+        if not PROCESS_ALL_MOVIES and MAX_MOVIES and len(df_base) > MAX_MOVIES:
+            print(f"Limiting to {MAX_MOVIES} movies for Render deployment")
             df_base = df_base.head(MAX_MOVIES)
         
-        print(f"Total movies to enrich: {len(df_base)}")
+        print(f"Total movies to enrich with TMDB API: {len(df_base)}")
         df_base = enrich_data_with_tmdb_api(df_base)
         print(f"Total movies after enrichment: {len(df_base)}")
         df_base.to_csv(enriched_data_path, index=False)

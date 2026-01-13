@@ -19,6 +19,7 @@ services:
     build: .
     environment:
       - TMDB_API_KEY=${TMDB_API_KEY}
+      - PROCESS_ALL_MOVIES=true
     volumes:
       - ./data:/app/data
     command: python preprocess_data.py
