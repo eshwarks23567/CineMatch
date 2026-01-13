@@ -77,6 +77,10 @@ enriched_data_path = os.path.join(data_dir, 'tmdb_5000_movies_enriched.csv')
 processed_data_cache_path = os.path.join(data_dir, 'processed_data_cache.pkl')
 similarity_cache_path = os.path.join(data_dir, 'similarity_cache.pkl')
 
+# Cache version to force rebuild when mood logic changes
+CACHE_VERSION = '2.0'  # Increment this to force cache rebuild
+cache_version_file = os.path.join(data_dir, 'cache_version.txt')
+
 ENRICHMENT_REQUIRED = False
 ENRICHMENT_BATCH_SIZE = 50
 ENRICHMENT_DELAY_SECONDS = 1.1
@@ -301,8 +305,26 @@ def enrich_data_with_tmdb_api(initial_df):
 def load_and_preprocess_data():
     global df, similarity, analyzer
     
-    # Check if cached processed data exists
-    if os.path.exists(processed_data_cache_path) and os.path.exists(similarity_cache_path):
+    # Check cache version - delete old cache if version mismatch
+    cache_valid = False
+    if os.path.exists(cache_version_file):
+        try:
+            with open(cache_version_file, 'r') as f:
+                cached_version = f.read().strip()
+            if cached_version == CACHE_VERSION:
+                cache_valid = True
+            else:
+                print(f"Cache version mismatch (cached: {cached_version}, current: {CACHE_VERSION}). Rebuilding cache...")
+                # Delete old cache files
+                for cache_file in [processed_data_cache_path, similarity_cache_path]:
+                    if os.path.exists(cache_file):
+                        os.remove(cache_file)
+                        print(f"Deleted old cache file: {cache_file}")
+        except Exception as e:
+            print(f"Error checking cache version: {e}")
+    
+    # Check if cached processed data exists and is valid
+    if cache_valid and os.path.exists(processed_data_cache_path) and os.path.exists(similarity_cache_path):
         print("Loading cached processed data and similarity matrix...")
         try:
             with open(processed_data_cache_path, 'rb') as f:
@@ -474,7 +496,11 @@ def load_and_preprocess_data():
             pickle.dump(df, f)
         with open(similarity_cache_path, 'wb') as f:
             pickle.dump(similarity, f)
+        # Write cache version file
+        with open(cache_version_file, 'w') as f:
+            f.write(CACHE_VERSION)
         print(f"Cached data saved to {processed_data_cache_path} and {similarity_cache_path}")
+        print(f"Cache version {CACHE_VERSION} written")
     except Exception as e:
         print(f"Warning: Could not cache data: {e}")
     
