@@ -85,6 +85,13 @@ cache_version_file = os.path.join(data_dir, 'cache_version.txt')
 PROCESS_ALL_MOVIES = os.environ.get('PROCESS_ALL_MOVIES', 'false').lower() == 'true'
 MAX_MOVIES = None if PROCESS_ALL_MOVIES else 2000  # Limit for Render processing
 
+# Profanity filter - list of inappropriate words to block
+PROFANITY_LIST = {
+    'fuck', 'shit', 'bitch', 'ass', 'damn', 'hell', 'crap', 'dick', 'pussy', 
+    'bastard', 'asshole', 'whore', 'slut', 'fag', 'nigger', 'retard', 'cunt',
+    'cock', 'porn', 'sex', 'xxx', 'nsfw', 'nude', 'naked', 'rape', 'kill', 'murder'
+}
+
 # Enable enrichment when processing all movies with Docker
 ENRICHMENT_REQUIRED = PROCESS_ALL_MOVIES
 ENRICHMENT_BATCH_SIZE = 50
@@ -99,6 +106,19 @@ except LookupError:
 
 df = None
 similarity = None
+
+# Profanity filter function
+def contains_profanity(text):
+    """Check if text contains any profane words"""
+    if not text:
+        return False
+    text_lower = text.lower()
+    words = text_lower.split()
+    # Check for exact word matches and substrings
+    for word in PROFANITY_LIST:
+        if word in text_lower:
+            return True
+    return False
 analyzer = SentimentIntensityAnalyzer()
 
 # --- Helper Functions ---
@@ -543,6 +563,31 @@ def recommend(movie_title):
             "language": "N/A"
         }]
 
+    # Check for profanity in search query
+    if contains_profanity(movie_title):
+        return [{
+            "title": "⚠️ Inappropriate search term detected",
+            "poster_url": PLACEHOLDER_IMAGE_URL,
+            "year": "N/A",
+            "genres": [],
+            "vote_average": None,
+            "movie_id": None,
+            "language": "N/A"
+        }]
+
+    # Rest of the function
+    movie_title = movie_title.strip()
+    if not movie_title:
+        return [{
+            "title": "Please enter a movie title.",
+            "poster_url": PLACEHOLDER_IMAGE_URL,
+            "year": "N/A",
+            "genres": [],
+            "vote_average": None,
+            "movie_id": None,
+            "language": "N/A"
+        }]
+
     try:
         query = movie_title.strip().lower()
 
@@ -593,6 +638,10 @@ def recommend(movie_title):
             is_franchise = len(collection_movies) > 0
 
         for movie in collection_movies:
+            # Skip inappropriate content
+            if contains_profanity(movie['title']):
+                continue
+                
             recommended_movies.append({
                 'movie_id': int(movie['movie_id']),
                 'title': movie['title'],
@@ -623,6 +672,10 @@ def recommend(movie_title):
                 
                 # Skip if already recommended
                 if similar_movie['title'] in [m['title'] for m in recommended_movies]:
+                    continue
+                
+                # Skip inappropriate content
+                if contains_profanity(similar_movie['title']):
                     continue
                 
                 # Quality filter: prioritize highly-rated movies (vote_average >= 6.5)
@@ -719,6 +772,15 @@ def recommend_by_text_mood():
     data = request.get_json()
     user_text = data.get('text')
     if not user_text: return jsonify({"error": "Text input is required"}), 400
+    
+    # Check for profanity
+    if contains_profanity(user_text):
+        return jsonify({
+            "error": "⚠️ Inappropriate language detected. Please use respectful terms.",
+            "movies": [],
+            "mood_detected": "Invalid"
+        }), 400
+    
     user_sentiment = analyzer.polarity_scores(user_text)['compound']
     
     def classify_user_mood(sentiment_score, user_text_lower):
@@ -827,6 +889,8 @@ def recommend_by_text_mood():
         mood_movies = df[df['mood_category'] == desired_mood]
 
     mood_movies = mood_movies[mood_movies['tmdb_vote_count'].notna() & (mood_movies['tmdb_vote_count'] >= 10)]
+    # Filter out inappropriate content
+    mood_movies = mood_movies[~mood_movies['title'].apply(contains_profanity)]
     formatted_movies = []
     mood_movies_list_of_dicts = mood_movies.sort_values(by=['tmdb_vote_average', 'tmdb_vote_count'], ascending=[False, False]).head(10).to_dict('records')
     for movie in mood_movies_list_of_dicts:
@@ -894,6 +958,8 @@ def get_movies_by_mood_category_route():
     
     # Filter by vote count (at least 10 votes for quality)
     mood_movies = mood_movies[mood_movies['tmdb_vote_count'].notna() & (mood_movies['tmdb_vote_count'] >= 10)]
+    # Filter out inappropriate content
+    mood_movies = mood_movies[~mood_movies['title'].apply(contains_profanity)]
     formatted_movies = []
     mood_movies_list_of_dicts = mood_movies.sort_values(by=['tmdb_vote_average', 'tmdb_vote_count'], ascending=[False, False]).head(10).to_dict('records')
     for movie in mood_movies_list_of_dicts:
