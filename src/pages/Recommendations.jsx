@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import '../App.css';
 
 export default function Recommendations() {
   const location = useLocation();

@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect, useCallback, memo } from 'react';
 import { motion, useInView } from 'framer-motion';
-import './AnimatedList.css';
 
 const AnimatedItem = memo(({ children, delay = 0, index, onMouseEnter, onClick }) => {
   const ref = useRef(null);
