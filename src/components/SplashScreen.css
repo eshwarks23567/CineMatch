@@ -223,3 +223,59 @@
     z-index: 10 !important;
 }
 
+/* ===========================
+   MOBILE FIXES FOR SPLASH SCREEN
+   =========================== */
+
+@media (max-width: 768px) {
+    /* 1. Fix the main box size */
+    .splash-center-prompt {
+        padding: 30px 20px !important; /* Reduce huge desktop padding */
+        width: 95% !important;        /* Prevent it from touching screen edges */
+        max-height: 90vh;             /* Ensure it fits vertically */
+        overflow-y: auto;             /* Allow scrolling if content is too tall */
+        margin-top: 20px;
+    }
+
+    /* 2. Shrink the giant title text */
+    .splash-main-title {
+        font-size: 2rem !important;   /* Down from 3rem */
+        line-height: 1.1;
+    }
+
+    .splash-box-logo {
+        font-size: 2rem !important;
+    }
+
+    /* 3. Stack the Input and Button vertically */
+    /* This is the most important fix for width issues */
+    .splash-input-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .splash-mood-input {
+        width: 100% !important;
+    }
+
+    .splash-find-btn {
+        width: 100% !important;       /* Full width button is easier to tap */
+        justify-content: center;
+        padding: 14px 0 !important;
+    }
+
+    /* 4. Fix side margins */
+    .splash-flex-row {
+        padding: 0 10px !important;
+    }
+
+    /* 5. Tweak mood buttons to wrap nicely */
+    .mood-buttons {
+        gap: 8px !important;
+    }
+
+    .mood-btn {
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+    }
+}
