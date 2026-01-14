@@ -482,16 +482,21 @@ def load_and_preprocess_data():
             return 'Horror'
         if 'mystery' in genres_list or 'crime' in genres_list or 'thriller' in genres_list:
             return 'Intense/Mystery'
-        # Broader genres next
+        # Romcom requires BOTH comedy and romance
         if 'comedy' in genres_list and 'romance' in genres_list:
             return 'Romcom'
+        # Romance takes priority over drama
+        if 'romance' in genres_list:
+            return 'Romantic/Dramatic'
+        # Comedy/family/animation for happy mood
         if 'comedy' in genres_list or 'family' in genres_list or 'animation' in genres_list:
             return 'Happy'
-        # Add sad category based on genre and sentiment
-        if score < -0.3 and ('drama' in genres_list or any(g in genres_list for g in ['romance', 'war'])):
+        # Sad category based on low sentiment and specific genres
+        if score < -0.3 and ('drama' in genres_list or 'war' in genres_list):
             return 'Sad'
-        if 'drama' in genres_list or 'romance' in genres_list:
-            return 'Romantic/Dramatic'
+        # Drama only if no romance
+        if 'drama' in genres_list:
+            return 'Drama'
         if 'documentary' in genres_list or 'history' in genres_list:
             return 'Thought-Provoking'
         if 'action' in genres_list or 'adventure' in genres_list:
@@ -678,16 +683,17 @@ def recommend(movie_title):
                 if contains_profanity(similar_movie['title']):
                     continue
                 
-                # Quality filter: prioritize highly-rated movies (vote_average >= 6.5)
-                if pd.notna(similar_movie['tmdb_vote_average']) and similar_movie['tmdb_vote_average'] < 6.0:
+                # Quality filter: prioritize well-rated movies (vote_average >= 5.5)
+                if pd.notna(similar_movie['tmdb_vote_average']) and similar_movie['tmdb_vote_average'] < 5.5:
                     continue
                     
-                # Diversity filter: ensure genre overlap but not identical
+                # Diversity filter: allow movies with similar themes even if genres differ slightly
                 base_genres = set(base_movie['tmdb_genres'] or [])
                 similar_genres = set(similar_movie['tmdb_genres'] or [])
                 genre_overlap = len(base_genres & similar_genres)
                 
-                if genre_overlap > 0:  # At least some genre overlap
+                # Accept if: 1) genres overlap, OR 2) high similarity score (>0.7) regardless of genre
+                if genre_overlap > 0 or sim_score > 0.7:
                     reason = 'Similar Content'
                     if sim_score > 0.8:
                         reason = 'Highly Similar'
@@ -731,8 +737,6 @@ def recommend(movie_title):
         recommended_movies.sort(key=recommendation_score, reverse=True)
         
         return recommended_movies[:20]  # Return top 20
-
-        return recommended_movies[:5]
 
     except Exception as e:
         print(f"Error in recommendation for '{movie_title}': {str(e)}")
@@ -877,8 +881,8 @@ def recommend_by_text_mood():
                              (df['tmdb_vote_average'] >= 8.0)]
             mood_movies = pd.concat([mood_movies, drama_movies]).drop_duplicates()
     elif desired_mood == 'Romantic/Dramatic':
-        # Romance or drama movies  
-        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['romance', 'drama'] for g in gs))]
+        # Romance movies only (not just drama)
+        mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() == 'romance' for g in gs))]
     elif desired_mood == 'Relaxing':
         mood_movies = df[df['tmdb_genres'].apply(lambda gs: isinstance(gs, list) and any(isinstance(g, str) and g.lower() in ['comedy', 'family', 'animation'] for g in gs))]
     elif desired_mood == 'Escapist':
