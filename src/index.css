@@ -26,9 +26,6 @@
   
   /* Fluid typography for zoom compatibility */
   font-size: clamp(14px, 1vw + 0.5rem, 18px);
-
-  /* Default 50% zoom effect */
-  zoom: 0.5;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -74,6 +71,13 @@ html {
   font-size: 16px;
   width: 100%;
   overflow-x: hidden;
+}
+
+/* Apply 50% zoom to body */
+body {
+  zoom: 50%;
+  -moz-transform: scale(0.5);
+  -moz-transform-origin: 0 0;
 }
 
 /* Prevent layout shift on zoom */
