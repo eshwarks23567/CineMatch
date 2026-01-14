@@ -869,8 +869,10 @@ header {
 }
 
 .mood-input-group input[type="text"] {
-    flex-grow: 0;
-    width: 500px;
+    flex-grow: 1;
+    width: 100%;
+    max-width: 500px;
+    min-width: 0;
     padding: 16px 24px;
     border: 2px solid rgba(58, 71, 92, 0.6);
     background-color: rgba(15, 23, 30, 0.8);
@@ -1633,5 +1635,38 @@ footer a:hover {
         min-width: 200px;
         max-width: 85vw;
         border-radius: 8px;
+    }
+}
+
+/* ===========================
+   MOBILE FIXES FOR MOOD SECTION
+   =========================== */
+
+@media (max-width: 768px) {
+    /* Make the container fit the mobile screen */
+    .mood-selector-section {
+        padding: 30px 15px !important;
+        width: 95% !important;
+        margin: 20px auto !important;
+    }
+
+    /* Stack the Input and Button vertically on phones */
+    .mood-input-group {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Ensure input takes full available width */
+    .mood-input-group input[type="text"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 12px;
+    }
+
+    /* Make the Go button full width for easier tapping */
+    .mood-input-group button {
+        width: 100%;
+        padding: 14px 0;
     }
 }
