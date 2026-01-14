@@ -2,19 +2,97 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-/* --- Fix uneven movie card heights and extra space --- */
+/* ===========================
+   RESPONSIVE OVERRIDE LAYER
+   (Fixes zoom & layout bugs)
+   =========================== */
+
+:root {
+  --sidebar-width: clamp(200px, 25vw, 280px);
+}
+
+/* Universal sizing safety */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Prevent horizontal zoom scroll */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Responsive grids */
 .movies-grid,
 .rec-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-    gap: 1.5rem;
-    padding: 0 1rem;
-    align-items: start;
-    justify-items: center;
-    width: 100%;
-    max-width: 90rem;
-    margin: 0 auto;
-    box-sizing: border-box;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+}
+
+/* Mobile grid */
+@media (max-width: 768px) {
+  .movies-grid,
+  .rec-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* All movie posters — ONE rule only */
+.movie-card img,
+.netflix-style-row .movie-card img,
+.rec-grid .movie-card img {
+  width: 100% !important;
+  aspect-ratio: 2 / 3 !important;
+  height: auto !important;
+  object-fit: cover !important;
+}
+
+/* Remove all hard poster heights */
+.movie-card img,
+.movie-card .no-poster {
+  min-height: unset !important;
+  max-height: unset !important;
+}
+
+/* Sidebar sync with layout */
+.sidebar {
+  width: var(--sidebar-width) !important;
+}
+main.sidebar-open {
+  margin-left: var(--sidebar-width) !important;
+}
+
+/* Search & mood inputs */
+.search-container,
+.mood-input-group input[type="text"] {
+  width: 100% !important;
+  max-width: 500px !important;
+}
+
+/* Netflix rows */
+.netflix-style-row .movie-card {
+  width: clamp(140px, 18vw, 200px) !important;
+}
+
+/* Landing collage posters */
+.collage-corner-poster {
+  width: clamp(70px, 10vw, 130px) !important;
+  aspect-ratio: 2 / 3 !important;
+  height: auto !important;
+}
+
+/* Slanted splash posters already good — keep scaling */
+.slanted-poster {
+  width: clamp(90px, 14vw, 150px) !important;
+  aspect-ratio: 2 / 3 !important;
+  height: auto !important;
 }
 
 /* Landing page slanted posters animation */
@@ -325,12 +403,6 @@ main {
     flex-grow: 1;
 }
 
-@media (min-width: 768px) {
-    main.sidebar-open {
-        margin-left: 250px;
-    }
-}
-
 .container {
     max-width: 80rem;
     margin: 0 auto;
@@ -590,7 +662,7 @@ header {
 
 .movie-detail-poster {
   width: 220px;
-  height: 330px;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.5);
@@ -896,19 +968,6 @@ header {
     background-color: #b20710;
 }
 
-/* Movie Grid (Common for all movie display sections) */
-.movies-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1.5rem;
-    padding: 0;
-    list-style: none;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    margin-top: 30px;
-}
-
 /* Movie Card (Common style for all movie displays) */
 .movie-card {
     position: relative;
@@ -966,7 +1025,6 @@ header {
 
 .movie-card img {
     width: 100%;
-    height: 330px;
     object-fit: cover;
     border-bottom: 1px solid #2A3847;
     will-change: transform;
@@ -1110,7 +1168,7 @@ header {
 
 .movie-card .no-poster {
     background-color: #333;
-    height: 330px;
+    aspect-ratio: 2 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1263,15 +1321,6 @@ footer a:hover {
     .section-title {
         font-size: 2.2em;
     }
-    
-    /* Sidebar adjustments for tablets */
-    .sidebar {
-        width: 220px;
-    }
-    
-    main.sidebar-open {
-        margin-left: 220px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -1386,7 +1435,6 @@ footer a:hover {
     }
     
     .movie-card img {
-        height: 220px;
         width: 100%;
         object-fit: cover;
     }
@@ -1598,7 +1646,7 @@ footer a:hover {
     
     .movie-detail-poster {
         width: 120px;
-        height: 180px;
+        aspect-ratio: 2 / 3;
     }
     
     .movie-detail-title {
@@ -1723,10 +1771,6 @@ footer a:hover {
         min-height: 240px;
     }
     
-    .movie-card img {
-        height: 180px;
-    }
-    
     .movie-card h3 {
         font-size: 0.85em;
     }
@@ -1764,51 +1808,38 @@ footer a:hover {
 .collage-corner-poster.tl {
     top: 26px;
     left: 16px;
-    width: 118px;
-    height: 170px;
     transform: rotate(-8deg);
 }
 .collage-corner-poster.tr {
     top: 36px;
     right: 19px;
-    width: 98px;
-    height: 145px;
     transform: rotate(12deg);
 }
 .collage-corner-poster.bl {
     bottom: 32px;
     left: 34px;
-    width: 100px;
-    height: 149px;
     transform: rotate(-17deg) scale(1.03);
 }
 .collage-corner-poster.br {
     bottom: 22px;
     right: 32px;
-    width: 125px;
-    height: 191px;
     transform: rotate(9deg) scale(1.12);
 }
 .collage-corner-poster.ml {
     top: 36vh;
     left: 22px;
-    width: 89px;
-    height: 133px;
     transform: rotate(-6deg) scale(1.03);
 }
 .collage-corner-poster.mr {
     top: 42vh;
     right: 11vw;
-    width: 117px;
-    height: 167px;
     transform: rotate(7deg) scale(1.08);
 }
 .collage-corner-poster.c {
     /* center-ish, slightly faded behind the prompt */
     top: 29vh;
     left: 43vw;
-    width: 211px;
-    height: 292px;
+    width: clamp(140px, 20vw, 211px) !important;
     opacity: 0.13;
     z-index: 0;
     filter: blur(2.2px) brightness(0.83);
@@ -2464,8 +2495,7 @@ footer a:hover {
 }
 
 .netflix-style-row .movie-card img {
-    width: 200px;
-    height: 300px;
+    width: 100%;
     object-fit: cover;
     border-radius: 4px;
 }
@@ -2478,7 +2508,7 @@ footer a:hover {
     transform: none; /* prevent scale bump causing layout jitter */
 }
 .rec-grid .movie-card img {
-    height: 300px;
+    object-fit: cover;
 }
 .rec-grid .movie-card-info {
     padding: 12px 10px;
@@ -2496,19 +2526,11 @@ footer a:hover {
     .cinematch-logo-text {
         font-size: 1.8em;
     }
-    .movie-card img {
-        width: 150px;
-        height: 225px;
-    }
 }
 
 @media (max-width: 480px) {
     .cinematch-logo-text {
         font-size: 1.5em;
-    }
-    .movie-card img {
-        width: 120px;
-        height: 180px;
     }
 }
 
