@@ -95,50 +95,6 @@ main.sidebar-open {
   height: auto !important;
 }
 
-/* Landing page slanted posters animation */
-.splash {
-    position: relative;
-    overflow: visible !important;
-    perspective: 2000px;
-}
-
-.splash-slanted-row {
-    pointer-events: auto !important;
-    position: absolute;
-    transform-style: preserve-3d;
-    z-index: 1;
-}
-
-.slanted-track {
-    position: relative;
-    transform-style: preserve-3d;
-    padding: 20px 0;
-    display: flex !important;
-    gap: 16px !important;
-    align-items: center !important;
-}
-
-.slanted-poster {
-    width: clamp(90px, 14vw, 150px) !important;
-    aspect-ratio: 2 / 3 !important;
-    height: auto !important;
-    object-fit: cover !important;
-    border-radius: 12px !important;
-    transition: all 0.3s ease-out !important;
-    filter: brightness(0.85) saturate(1.1) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4) !important;
-    cursor: pointer !important;
-    position: relative !important;
-    z-index: 1 !important;
-}
-
-.slanted-poster:hover {
-    filter: brightness(1.3) saturate(1.3) !important;
-    transform: scale(1.15) translateY(-10px) !important;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6) !important;
-    z-index: 10 !important;
-}
-
 .movie-card {
     display: flex;
     flex-direction: column;
@@ -1785,82 +1741,7 @@ footer a:hover {
     }
 }
 
-.splash-collage-mosaic-bg {
-    position: absolute;
-    pointer-events: none;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-}
-
-.collage-corner-poster {
-    position: fixed;
-    opacity: 0.21;
-    z-index: 1;
-    border-radius: 12px;
-    filter: blur(1.5px) brightness(0.90);
-    box-shadow: 0 8px 36px #0008;
-    pointer-events: none;
-    object-fit: cover;
-}
-
-.collage-corner-poster.tl {
-    top: 26px;
-    left: 16px;
-    transform: rotate(-8deg);
-}
-.collage-corner-poster.tr {
-    top: 36px;
-    right: 19px;
-    transform: rotate(12deg);
-}
-.collage-corner-poster.bl {
-    bottom: 32px;
-    left: 34px;
-    transform: rotate(-17deg) scale(1.03);
-}
-.collage-corner-poster.br {
-    bottom: 22px;
-    right: 32px;
-    transform: rotate(9deg) scale(1.12);
-}
-.collage-corner-poster.ml {
-    top: 36vh;
-    left: 22px;
-    transform: rotate(-6deg) scale(1.03);
-}
-.collage-corner-poster.mr {
-    top: 42vh;
-    right: 11vw;
-    transform: rotate(7deg) scale(1.08);
-}
-.collage-corner-poster.c {
-    /* center-ish, slightly faded behind the prompt */
-    top: 29vh;
-    left: 43vw;
-    width: clamp(140px, 20vw, 211px) !important;
-    opacity: 0.13;
-    z-index: 0;
-    filter: blur(2.2px) brightness(0.83);
-    transform: rotate(-3deg) scale(1.03);
-}
-
-.splash {
-    position: relative;
-    z-index: 4000;
-    min-height: 100vh;
-    width: 100%;
-    max-width: 100vw;
-    background: #0F171E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    overflow-x: hidden;
-    box-sizing: border-box;
-}
-.splash-top-logo {
+/* Netflix-like hero gradient overlay */
     position: fixed;
     top: 40px;
     left: 50%;
