@@ -27,21 +27,21 @@ export default function SplashScreen({
 
   return (
     <motion.div 
-      className="min-h-[100svh] w-full flex items-center justify-center bg-[#0F171E] px-4"
+      className="min-h-screen w-full flex items-center justify-center bg-[#0F171E] px-3 sm:px-4 md:px-6 py-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div 
-        className="w-full max-w-2xl bg-[#141824]/95 backdrop-blur-xl rounded-3xl shadow-2xl p-6 sm:p-10 flex flex-col items-center text-center gap-6"
+        className="w-full max-w-xl md:max-w-2xl bg-[#141824]/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-8 md:p-10 flex flex-col items-center text-center gap-4 sm:gap-6"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
       >
         {/* Logo */}
         <motion.h1 
-          className="text-4xl sm:text-5xl font-extrabold tracking-wide"
+          className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5, ease: [0.34, 1.56, 0.64, 1] }}
@@ -52,7 +52,7 @@ export default function SplashScreen({
 
         {/* Tagline */}
         <motion.p 
-          className="text-[#F5C518] text-sm sm:text-base opacity-90"
+          className="text-[#F5C518] text-xs sm:text-sm md:text-base opacity-90 px-2"
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.4 }}
@@ -62,7 +62,7 @@ export default function SplashScreen({
 
         {/* Title */}
         <motion.h2 
-          className="text-white text-2xl sm:text-4xl font-bold"
+          className="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold px-2"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -72,13 +72,13 @@ export default function SplashScreen({
 
         {/* Input */}
         <motion.div 
-          className="w-full flex flex-col sm:flex-row gap-3"
+          className="w-full flex flex-col sm:flex-row gap-2 sm:gap-3"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.5 }}
         >
           <input
-            className="flex-1 bg-[#0F171E] border border-[#2A3847] rounded-full px-5 py-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F5C518]"
+            className="flex-1 bg-[#0F171E] border border-[#2A3847] rounded-full px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F5C518]"
             placeholder="Describe your mood..."
             type="text"
             value={moodText}
@@ -86,7 +86,7 @@ export default function SplashScreen({
             onKeyDown={e => e.key === 'Enter' && moodText.trim() && (setShowSplash(false), fetchMoviesFromMoodText(moodText))}
           />
           <motion.button 
-            className="px-8 py-4 rounded-full bg-gradient-to-r from-[#F5C518] to-[#E50914] text-white font-bold hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base rounded-full bg-gradient-to-r from-[#F5C518] to-[#E50914] text-white font-bold hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => moodText.trim() && (setShowSplash(false), fetchMoviesFromMoodText(moodText))}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -98,7 +98,7 @@ export default function SplashScreen({
 
         {/* Mood Buttons */}
         <motion.div 
-          className="flex flex-wrap justify-center gap-3"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
@@ -106,7 +106,7 @@ export default function SplashScreen({
           {moodButtons.map((mood, index) => (
             <motion.button
               key={mood.label}
-              className={`px-5 py-3 rounded-full font-semibold ${mood.color}`}
+              className={`px-4 sm:px-5 py-2 sm:py-3 text-sm sm:text-base rounded-full font-semibold ${mood.color}`}
               onClick={() => handleMoodClick(mood.label)}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -121,7 +121,7 @@ export default function SplashScreen({
 
         {/* Browse Button */}
         <motion.button 
-          className="mt-4 px-8 py-3 rounded-xl bg-[#1A242F] border border-[#2A3847] text-white hover:bg-[#2A3847] transition"
+          className="mt-2 sm:mt-4 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl bg-[#1A242F] border border-[#2A3847] text-white hover:bg-[#2A3847] transition"
           onClick={() => setShowSplash(false)}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
